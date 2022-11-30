@@ -16,15 +16,15 @@ namespace Blog.Web.Pages.Admin.Blogs
         {
             this.blogDbContext = blogDbContext;
         }
-        public void OnGet(Guid id)
+        public async Task OnGet(Guid id)
         {
-          BlogPost= blogDbContext.BlogPosts.Find(id);
+          BlogPost= await blogDbContext.BlogPosts.FindAsync(id);
            
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostEdit()
         {
-         var existingBlogPost = blogDbContext.BlogPosts.Find(BlogPost.Id);
+         var existingBlogPost = await blogDbContext.BlogPosts.FindAsync(BlogPost.Id);
             if(existingBlogPost != null)
             {
                 existingBlogPost.Heading = BlogPost.Heading;
@@ -37,8 +37,22 @@ namespace Blog.Web.Pages.Admin.Blogs
                 existingBlogPost.Visible = BlogPost.Visible;
 
             }
-            blogDbContext.SaveChanges();
+           await blogDbContext.SaveChangesAsync();
             return RedirectToPage("/Admin/Blogs/ListOfPost");
         }
+
+        public async Task< IActionResult> OnPostDelete()
+        {
+            var existingBlog= await blogDbContext.BlogPosts.FindAsync(BlogPost.Id);
+            if(existingBlog != null)
+            {
+                blogDbContext.BlogPosts.Remove(existingBlog);
+               await blogDbContext.SaveChangesAsync();
+                return RedirectToPage("/Admin/Blogs/ListOfPost");
+
+            }
+            return Page();
+        }
     }
+
 }

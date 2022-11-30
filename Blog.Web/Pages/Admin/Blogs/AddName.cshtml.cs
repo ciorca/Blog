@@ -20,7 +20,7 @@ namespace Blog.Web.Pages.Admin.Blogs
         public void OnGet()
         {
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             var blogPost = new BlogPost() 
             {
@@ -34,9 +34,10 @@ namespace Blog.Web.Pages.Admin.Blogs
             Visible=AddBlogPostRequest.Visible
             };
 
-            blogDbContext.BlogPosts.Add(blogPost);
-            blogDbContext.SaveChanges();
-            return RedirectToPage("/Admin/Blogs/ListOfPost");
+               await blogDbContext.BlogPosts.AddAsync(blogPost);
+               await blogDbContext.SaveChangesAsync();
+
+                return RedirectToPage("/Admin/Blogs/ListOfPost");
         }
        
 

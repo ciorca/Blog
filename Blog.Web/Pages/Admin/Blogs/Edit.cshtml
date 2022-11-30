@@ -6,18 +6,18 @@
  <div class="bg-secondary bg-opacity-10 py-2 mb-5">
         <div class="container">
         <h1>Edit Blog Post</h1>
+         </div>
+             </div>
 
-    </div>
-      </div>
-
-      <div>
+@if(Model.BlogPost != null)
+        {
+                  <div>
       <div class="container">
           <form method="post">
                 <div class="mb-3">
             <label for="heading" class="form-label">Id</label>
             <input type="text" class="form-control" id="id"asp-for="BlogPost.Id" readonly>
        </div>
-
             <div class="mb-3">
             <label for="heading" class="form-label">Heading</label>
             <input type="text" class="form-control" id="heading"asp-for="BlogPost.Heading">
@@ -56,12 +56,20 @@
         Is Visible
       </label>
     </div>
-       <div class="mb-3">
-           <button class="btn-primary btn-primary" type="submit">Submit</button>
-       </div>
-
-
-       
+       <div class="mb-3 d-flex justify-content-between">
+           <button class="btn-primary btn-primary" type="submit" asp-page-handler="Edit">Submit</button>
+            <button class="btn-primary btn-danger" type="submit" asp-page-handler="Delete">Delete</button>
+       </div>    
           </form>
       </div>
-      </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <p>Blog Post not Found!!!</p>
+    </div>
+}
+
+  
+
